@@ -23,11 +23,8 @@ export class TeacherService {
 
   async create(createTeacherDto: CreateTeacherDto): Promise<CreateTeacherDto> {
     try {
-      const teacher = await this.teacherUtiity.hashPassword<CreateTeacherDto>(
-        createTeacherDto,
-      );
-      const newTeacher = await this.teachersRepository.create(teacher);
-      return await this.teachersRepository.save(newTeacher);
+      const teacher = await this.teachersRepository.create(createTeacherDto);
+      return await this.teachersRepository.save(teacher);
     } catch (err) {
       if (err.code == '23505')
         throw new ConflictException('User with the Provided Email exists');

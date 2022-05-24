@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { Services } from '../services/services.utility';
@@ -16,19 +15,17 @@ export class StudentService {
   constructor(
     @InjectRepository(Student)
     private studentsRepository: Repository<Student>,
-    private teacherUtiity: Services,
+    private utility: Services,
   ) {}
 
-  async create(createStudentDto: CreateStudentDto) {
+  async create(createStudentDto: CreateStudentDto): Promise<CreateStudentDto> {
     try {
-      const student = await this.teacherUtiity.hashPassword<CreateStudentDto>(
-        createStudentDto,
-      );
-      const newStudent = this.studentsRepository.create(student);
-      return await this.studentsRepository.save(newStudent);
+      const student = this.studentsRepository.create(createStudentDto);
+      student.class_id = this.utility.generateStudentId();
+      return await this.studentsRepository.save(student);
     } catch (err) {
       if (err.code == '23505')
-        throw new ConflictException('User with the Provided Admission exists');
+        throw new ConflictException('Provided Admission Number exists');
       throw new InternalServerErrorException('Unable to Create Student');
     }
   }

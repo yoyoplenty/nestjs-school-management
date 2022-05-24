@@ -7,7 +7,10 @@ import {
   Unique,
   OneToMany,
   OneToOne,
+  BeforeInsert,
+  JoinColumn,
 } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
 
 import { Role } from '../../auth/entities/role.entity';
 import { Subject } from '../../subject/entities/subject.entity';
@@ -16,6 +19,13 @@ import { Class } from '../../class/entities/class.entity';
 @Entity()
 @Unique(['email'])
 export class Teacher {
+  @BeforeInsert()
+  async hashPassword() {
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(this.password, salt);
+    this.password = hashedPassword;
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -52,9 +62,10 @@ export class Teacher {
   @UpdateDateColumn()
   terminnation_date: Date;
 
-  @OneToMany(() => Subject, (subject) => subject.teacher, { eager: true })
+  @OneToMany(() => Subject, (subject) => subject.teacher)
   subjects: Subject[];
 
-  @OneToOne(() => Class, (classes) => classes.teacher, { eager: true })
+  @OneToOne(() => Class, (classes) => classes.teacher)
+  @JoinColumn()
   class: Class;
 }

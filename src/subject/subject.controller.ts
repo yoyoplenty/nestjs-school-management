@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { teacherInSubjectPipe } from './validation/subject.validation';
 import { SubjectService } from './subject.service';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
@@ -16,7 +17,7 @@ export class SubjectController {
   constructor(private readonly subjectService: SubjectService) {}
 
   @Post()
-  create(@Body() createSubjectDto: CreateSubjectDto) {
+  create(@Body(teacherInSubjectPipe) createSubjectDto: CreateSubjectDto) {
     return this.subjectService.create(createSubjectDto);
   }
 

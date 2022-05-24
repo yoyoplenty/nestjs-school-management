@@ -1,19 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
+import { Services } from '../services/services.utility';
+import { Subject } from './entities/subject.entity';
+import { TeacherService } from 'src/teacher/teacher.service';
+import { Teacher } from 'src/teacher/entities/teacher.entity';
 
 @Injectable()
 export class SubjectService {
-  create(createSubjectDto: CreateSubjectDto) {
-    return 'This action adds a new subject';
+  constructor(
+    @InjectRepository(Subject)
+    private subjectsRepository: Repository<Subject>,
+    private teacherService: TeacherService,
+    private utility: Services,
+  ) {}
+
+  async create(
+    createSubjectDto: CreateSubjectDto | any,
+  ): Promise<CreateSubjectDto> {
+    return await this.subjectsRepository.save({
+      subject_name: createSubjectDto.subject_name,
+      teacher: createSubjectDto.teachers,
+    });
   }
 
-  findAll() {
-    return `This action returns all subject`;
+  async findAll(): Promise<CreateSubjectDto[]> {
+    return this.subjectsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subject`;
+  async findOne(id: number) {
+    return await this.subjectsRepository.findOne(id);
   }
 
   update(id: number, updateSubjectDto: UpdateSubjectDto) {

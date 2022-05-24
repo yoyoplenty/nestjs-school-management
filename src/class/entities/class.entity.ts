@@ -19,6 +19,9 @@ export class Class {
   @Column()
   class_name: string;
 
+  @Column({ nullable: true })
+  department: string;
+
   @CreateDateColumn()
   created_at: Date;
 

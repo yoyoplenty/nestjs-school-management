@@ -1,15 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { PaginateQuery, Paginated } from 'nestjs-paginate';
 import { CreateClassDto } from './dto/create-class.dto';
 import { UpdateClassDto } from './dto/update-class.dto';
+import { Class } from './entities/class.entity';
+import { BaseService } from 'src/services/baseService.service';
 
 @Injectable()
 export class ClassService {
-  create(createClassDto: CreateClassDto) {
-    return 'This action adds a new class';
+  constructor(
+    @InjectRepository(Class)
+    private classRepository: Repository<Class>,
+    private baseService: BaseService,
+  ) {}
+
+  async create(createClassDto: CreateClassDto): Promise<CreateClassDto> {
+    const newClass = await this.classRepository.create(createClassDto);
+    return this.classRepository.save(newClass);
   }
 
-  findAll() {
-    return `This action returns all class`;
+  async findAll(query: PaginateQuery): Promise<Paginated<Class>> {
+    return await this.baseService.Paginate(query, this.classRepository);
   }
 
   findOne(id: number) {
