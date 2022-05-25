@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   OneToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 
 import { Teacher } from '../../teacher/entities/teacher.entity';
@@ -28,7 +29,8 @@ export class Class {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToOne(() => Teacher, (teacher) => teacher.class)
+  @OneToOne(() => Teacher, (teacher) => teacher.class, { eager: true })
+  @JoinColumn()
   teacher: Teacher;
 
   @OneToMany(() => Student, (students) => students.class, { eager: true })

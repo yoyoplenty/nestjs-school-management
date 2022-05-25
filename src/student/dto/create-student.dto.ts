@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  IsNumber,
-  Length,
-  IsEnum,
-} from 'class-validator';
+import { IsNotEmpty, IsString, Length, IsEnum } from 'class-validator';
 import { Role } from '../../auth/entities/role.entity';
 
 export class CreateStudentDto {
@@ -19,7 +13,7 @@ export class CreateStudentDto {
   lastname: string;
 
   @IsNotEmpty()
-  @IsEnum(['male', 'male'])
+  @IsEnum(['male', 'female'])
   gender: string;
 
   @IsString()
@@ -33,17 +27,16 @@ export class CreateStudentDto {
   address: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   @Length(5, 25)
   parents_name: string;
 
   @IsNotEmpty()
-  @IsNumber()
   @Length(11)
   parents_phone: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   @Length(6)
   admission_number: string;
 }

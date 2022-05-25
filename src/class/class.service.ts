@@ -17,6 +17,7 @@ export class ClassService {
 
   async create(createClassDto: CreateClassDto): Promise<CreateClassDto> {
     const newClass = await this.classRepository.create(createClassDto);
+    newClass.teacher = createClassDto.teacher;
     return this.classRepository.save(newClass);
   }
 

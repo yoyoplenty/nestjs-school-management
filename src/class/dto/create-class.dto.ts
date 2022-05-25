@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsString, Length, IsOptional } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  Length,
+  IsOptional,
+  IsNumber,
+} from 'class-validator';
+import { Teacher } from 'src/teacher/entities/teacher.entity';
 
 export class CreateClassDto {
   @IsString()
@@ -6,8 +13,14 @@ export class CreateClassDto {
   @Length(4)
   class_name: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   @Length(4)
-  department: string;
+  department?: string;
+
+  @IsNumber()
+  teacher_id?: number;
+
+  @IsOptional()
+  teacher?: Teacher;
 }

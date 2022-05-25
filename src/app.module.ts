@@ -27,6 +27,7 @@ import { ServicesModule } from './services/services.module';
       synchronize: true,
       entities: [Teacher, Student, Subject, Class],
     }),
+
     TeacherModule,
     StudentModule,
     SubjectModule,

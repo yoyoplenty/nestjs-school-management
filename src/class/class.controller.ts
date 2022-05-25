@@ -11,13 +11,14 @@ import { ClassService } from './class.service';
 import { CreateClassDto } from './dto/create-class.dto';
 import { UpdateClassDto } from './dto/update-class.dto';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { classExistPipe } from './validation/class.validation';
 
 @Controller('class')
 export class ClassController {
   constructor(private readonly classService: ClassService) {}
 
   @Post()
-  create(@Body() createClassDto: CreateClassDto) {
+  create(@Body(classExistPipe) createClassDto: CreateClassDto) {
     return this.classService.create(createClassDto);
   }
 

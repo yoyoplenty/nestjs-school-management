@@ -17,13 +17,10 @@ export class SubjectService {
     private utility: Services,
   ) {}
 
-  async create(
-    createSubjectDto: CreateSubjectDto | any,
-  ): Promise<CreateSubjectDto> {
-    return await this.subjectsRepository.save({
-      subject_name: createSubjectDto.subject_name,
-      teacher: createSubjectDto.teachers,
-    });
+  async create(createSubjectDto: CreateSubjectDto): Promise<CreateSubjectDto> {
+    const subject = await this.subjectsRepository.create(createSubjectDto);
+    subject.teacher = createSubjectDto.teachers;
+    return await this.subjectsRepository.save(subject);
   }
 
   async findAll(): Promise<CreateSubjectDto[]> {

@@ -5,8 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Unique,
-  ManyToOne,
   BeforeInsert,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 
 import { Teacher } from '../../teacher/entities/teacher.entity';
@@ -14,11 +15,6 @@ import { Teacher } from '../../teacher/entities/teacher.entity';
 @Entity()
 @Unique(['subject_name'])
 export class Subject {
-  @BeforeInsert()
-  nameToUpperCase() {
-    this.subject_name = this.subject_name.toLocaleUpperCase();
-  }
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -31,6 +27,7 @@ export class Subject {
   @UpdateDateColumn()
   terminnation_date: Date;
 
-  @ManyToOne(() => Teacher, (teacher) => teacher.subjects, { eager: true })
-  teacher: Teacher;
+  @ManyToMany(() => Teacher, (teacher) => teacher.subjects, { eager: true })
+  @JoinTable()
+  teacher: Teacher[];
 }

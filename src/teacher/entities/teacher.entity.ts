@@ -5,13 +5,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Unique,
-  OneToMany,
   OneToOne,
   BeforeInsert,
-  JoinColumn,
+  //JoinColumn,
+  ManyToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-
 import { Role } from '../../auth/entities/role.entity';
 import { Subject } from '../../subject/entities/subject.entity';
 import { Class } from '../../class/entities/class.entity';
@@ -62,10 +61,9 @@ export class Teacher {
   @UpdateDateColumn()
   terminnation_date: Date;
 
-  @OneToMany(() => Subject, (subject) => subject.teacher)
+  @ManyToMany(() => Subject, (subject) => subject.teacher /* { eager: true } */)
   subjects: Subject[];
 
   @OneToOne(() => Class, (classes) => classes.teacher)
-  @JoinColumn()
   class: Class;
 }

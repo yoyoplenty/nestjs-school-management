@@ -40,7 +40,6 @@ export class UpdateStudentDto extends PartialType(CreateStudentDto) {
 
   @IsOptional()
   @IsNotEmpty()
-  @IsNumber()
   @Length(11)
   parents_phone: string;
 
