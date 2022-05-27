@@ -1,5 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import * as randomstring from 'randomstring';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class Services {
@@ -11,6 +12,7 @@ export class Services {
       );
     return body;
   }
+
   generateStudentId() {
     const value = 'ST';
     return (
@@ -21,5 +23,15 @@ export class Services {
         capitalization: 'uppercase',
       })
     );
+  }
+
+  async createToken(payload, expiresIn = String(process.env.JWT_EXPIRES)) {
+    return await jwt.sign(payload, process.env.SECRET, {
+      expiresIn,
+    });
+  }
+
+  async verifyToken(token) {
+    return await jwt.verify(token, process.env.SECRET);
   }
 }

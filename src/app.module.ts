@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TeacherModule } from './teacher/teacher.module';
@@ -11,7 +12,7 @@ import { Teacher } from './teacher/entities/teacher.entity';
 import { Student } from './student/entities/student.entity';
 import { Subject } from './subject/entities/subject.entity';
 import { Class } from './class/entities/class.entity';
-import { ServicesModule } from './services/services.module';
+import { ServicesModule } from './utils/services.module';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { ServicesModule } from './services/services.module';
       synchronize: true,
       entities: [Teacher, Student, Subject, Class],
     }),
-
+    ConfigModule.forRoot({ isGlobal: true }),
     TeacherModule,
     StudentModule,
     SubjectModule,

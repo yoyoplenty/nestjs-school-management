@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
-import { Services } from '../services/services.utility';
+import { Services } from '../utils/services.utility';
 import { Subject } from './entities/subject.entity';
 import { TeacherService } from 'src/teacher/teacher.service';
 import { Teacher } from 'src/teacher/entities/teacher.entity';

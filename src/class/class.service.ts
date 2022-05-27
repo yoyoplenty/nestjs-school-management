@@ -5,7 +5,7 @@ import { PaginateQuery, Paginated } from 'nestjs-paginate';
 import { CreateClassDto } from './dto/create-class.dto';
 import { UpdateClassDto } from './dto/update-class.dto';
 import { Class } from './entities/class.entity';
-import { BaseService } from 'src/services/baseService.service';
+import { BaseService } from 'src/utils/baseService.service';
 
 @Injectable()
 export class ClassService {

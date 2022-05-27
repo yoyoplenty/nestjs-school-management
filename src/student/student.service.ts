@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { Services } from '../services/services.utility';
+import { Services } from '../utils/services.utility';
 import { Student } from './entities/student.entity';
 
 @Injectable()
@@ -36,6 +36,10 @@ export class StudentService {
 
   findOne(id: number) {
     return `This action returns a #${id} student`;
+  }
+
+  async findStudent(class_id: string): Promise<Student> {
+    return await this.studentsRepository.findOne({ class_id });
   }
 
   update(id: number, updateStudentDto: UpdateStudentDto) {

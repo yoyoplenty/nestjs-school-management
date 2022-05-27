@@ -9,8 +9,8 @@ import { PaginateQuery, Paginated } from 'nestjs-paginate';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
 import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { Teacher } from './entities/teacher.entity';
-import { Services } from '../services/services.utility';
-import { BaseService } from 'src/services/baseService.service';
+import { Services } from '../utils/services.utility';
+import { BaseService } from 'src/utils/baseService.service';
 
 @Injectable()
 export class TeacherService {
@@ -40,7 +40,7 @@ export class TeacherService {
     return await this.teachersRepository.findOne(id);
   }
 
-  async findUser(email: string): Promise<Teacher> {
+  async findTeacher(email: string): Promise<Teacher> {
     return await this.teachersRepository.findOne({ email: email });
   }
 
